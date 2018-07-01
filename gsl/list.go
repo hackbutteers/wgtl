@@ -83,8 +83,8 @@ type List struct {
 
 func NewList() *List {
 	al := &ListDefaultAllocator{}
-	h := al.Allocate().(*Lnode)
-	t := al.Allocate().(*Lnode)
+	h := al.Allocate(1).(*Lnode)
+	t := al.Allocate(1).(*Lnode)
 	h.next = t
 	h.prev = nil
 	h.value  = nil
@@ -95,8 +95,8 @@ func NewList() *List {
 }
 
 func NewAllocList(al Allocator) *List {
-	h := al.Allocate().(*Lnode)
-	t := al.Allocate().(*Lnode)
+	h := al.Allocate(1).(*Lnode)
+	t := al.Allocate(1).(*Lnode)
 	al.Construct(h, t, nil, nil)
 	al.Construct(t, nil, h, nil)
 	return &List{al, h, t, 0}

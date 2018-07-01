@@ -11,6 +11,8 @@ type BidirectIterator interface{
 
 	First() bool
 
+	Assign(v interface{})
+
 	Equal(t BidirectIterator) bool
 }
 

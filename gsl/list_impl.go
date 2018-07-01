@@ -1,10 +1,10 @@
 package gsl
 // allocator
-func (al *ListDefaultAllocator)Allocate() interface{} {
+func (al *ListDefaultAllocator)Allocate(size int) interface{} {
 	return &Lnode{}
 }
 
-func (al *ListDefaultAllocator)Deallocate(v interface{}) {
+func (al *ListDefaultAllocator)Deallocate(v interface{}, size int) {
 	
 }
 
@@ -20,18 +20,18 @@ func (al *ListDefaultAllocator)Construct(v interface{}, args...interface{}) {
 //member functions
 
 func (l *List) PushFront(v interface{}) {
-	ln := l.alloc.Allocate().(*Lnode)
+	ln := l.alloc.Allocate(1).(*Lnode)
 	l.alloc.Construct(ln, l.head.next, l.head, v)
-	defer l.alloc.Deallocate(ln)
+	defer l.alloc.Deallocate(ln, 1)
 	l.head.next.prev = ln
 	l.head.next = ln
 	l.size = l.size + 1
 }
 
 func (l *List) PushBack(v interface{}) {
-	ln := l.alloc.Allocate().(*Lnode)
+	ln := l.alloc.Allocate(1).(*Lnode)
 	l.alloc.Construct(ln, l.tail, l.tail.prev, v)
-	defer l.alloc.Deallocate(ln)
+	defer l.alloc.Deallocate(ln, 1)
 	l.tail.prev.next = ln
 	l.tail.prev = ln
 	l.size = l.size + 1
@@ -144,7 +144,7 @@ func (l *List)Insert(index int, values ...interface{}) {
 	lnNext := ln.next
 	var in *Lnode
 	for _, e := range values {
-		in = l.alloc.Allocate().(*Lnode)
+		in = l.alloc.Allocate(1).(*Lnode)
 		ln.next = in
 		in.prev = ln
 		in.value = e
@@ -202,7 +202,7 @@ func (l *List)Clear() {
 func (l * List) Add(v...interface{}) {
 	ln := l.tail.prev
 	for _, e := range v {
-		in := l.alloc.Allocate().(*Lnode)
+		in := l.alloc.Allocate(1).(*Lnode)
 		ln.next = in
 		in.prev = ln
 		in.value = e

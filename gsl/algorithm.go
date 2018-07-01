@@ -20,3 +20,10 @@ func (s sortable) Less(i, j int) bool {
 func Sort(values []interface{}, comparator Comparator) {
 	sort.Sort(sortable{values, comparator})
 }
+
+func Move(start BidirectIterator, end BidirectIterator, target BidirectIterator) {
+	for ; !start.Equal(end); start.Next() {
+		target.Assign(start.Value())
+		target.Next()
+	}
+}
